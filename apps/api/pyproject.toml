@@ -8,6 +8,7 @@ dependencies = [
     "anthropic>=0.115.1",
     "asyncpg>=0.31.0",
     "celery>=5.6.3",
+    "cryptography>=46.0.7",
     "fastapi>=0.139.0",
     "google-generativeai>=0.8.6",
     "guardrails-ai>=0.10.2",
@@ -29,3 +30,8 @@ dev = [
     "pytest-asyncio>=1.4.0",
     "ruff>=0.15.20",
 ]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"

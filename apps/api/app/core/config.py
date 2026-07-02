@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     supabase_secret_key: str = ""
     supabase_service_role_key: str = ""
     database_url: str = ""
+    pii_vault_encryption_key: str = ""
 
     redis_url: str = "redis://localhost:6379/0"
 

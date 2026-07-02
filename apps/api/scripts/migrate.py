@@ -7,7 +7,9 @@ from pathlib import Path
 import asyncpg
 from dotenv import load_dotenv
 
-MIGRATIONS_DIR = Path(__file__).resolve().parents[2] / "infra" / "supabase" / "migrations"
+MIGRATIONS_DIR = (
+    Path(__file__).resolve().parents[3] / "infra" / "supabase" / "migrations"
+)
 
 
 async def main() -> None:
@@ -21,7 +23,10 @@ async def main() -> None:
         )
         """
     )
-    applied = {r["filename"] for r in await conn.fetch("select filename from schema_migrations")}
+    applied = {
+        r["filename"]
+        for r in await conn.fetch("select filename from schema_migrations")
+    }
 
     for path in sorted(MIGRATIONS_DIR.glob("*.sql")):
         if path.name in applied:
@@ -33,7 +38,7 @@ async def main() -> None:
             await conn.execute(
                 "insert into schema_migrations (filename) values ($1)", path.name
             )
-        print(f"  OK")
+        print("  OK")
 
     await conn.close()
 

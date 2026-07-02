@@ -17,6 +17,8 @@ class Settings(BaseSettings):
 
     redis_url: str = "redis://localhost:6379/0"
 
+    llm_provider: str = "gemini"
+
     anthropic_api_key: str = ""
     openai_api_key: str = ""
     gemini_api_key: str = ""

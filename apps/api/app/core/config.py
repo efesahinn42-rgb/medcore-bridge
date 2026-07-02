@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
     environment: str = "local"
+    allowed_origins: str = "http://localhost:3000,http://localhost:3002"
 
     supabase_url: str = ""
     supabase_publishable_key: str = ""

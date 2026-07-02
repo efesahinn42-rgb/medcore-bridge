@@ -27,7 +27,11 @@ BAĞLAM:
 """
 
 
-async def answer_question(clinic_id: UUID, question: str) -> str:
+async def answer_question(
+    clinic_id: UUID, question: str, history: list[ChatMessage] | None = None
+) -> str:
+    """history verilirse (önceki tur(lar)ı), çok turlu bağlamla yanıtlar — RAG araması
+    yine sadece en son soruya göre yapılır, önceki turlar sadece sohbet bağlamı sağlar."""
     embedder = get_embedding_provider()
     question_vector = await embedder.embed(question)
     vector_literal = to_pgvector_literal(question_vector)
@@ -50,6 +54,5 @@ async def answer_question(clinic_id: UUID, question: str) -> str:
     system = SYSTEM_PROMPT.format(context=context)
 
     chat = get_chat_provider()
-    return await chat.complete(
-        system=system, messages=[ChatMessage(role="user", content=question)]
-    )
+    messages = [*(history or []), ChatMessage(role="user", content=question)]
+    return await chat.complete(system=system, messages=messages)

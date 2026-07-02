@@ -7,8 +7,8 @@
     },
     "supabase": {
       "type": "http",
-      "url": "https://mcp.supabase.com/mcp",
-      "description": "Resmi Supabase MCP — şema/migrasyon/RLS/pgvector yönetimi. Faz 1/Hafta 2 için gerekli. Proje bağlanmadan önce dashboard'dan MCP connection URL'ini kendi projenize göre üretin; production projesine ASLA bağlamayın, önce dev/staging kullanın."
+      "url": "https://mcp.supabase.com/mcp?project_ref=pzznrjljwlecyuphycco",
+      "description": "AKTİF — proje kökündeki .mcp.json'da gerçek bağlantı olarak tanımlı (project-scoped, sadece bu Supabase projesine erişim). Bu dosyadaki kopya sadece referans amaçlıdır. İlk kullanımda 'claude /mcp' ile OAuth onayı gerekir."
     },
     "github": {
       "command": "npx",

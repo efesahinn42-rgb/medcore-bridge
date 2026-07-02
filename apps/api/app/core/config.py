@@ -10,6 +10,7 @@ class Settings(BaseSettings):
 
     supabase_url: str = ""
     supabase_service_role_key: str = ""
+    database_url: str = ""
 
     redis_url: str = "redis://localhost:6379/0"
 

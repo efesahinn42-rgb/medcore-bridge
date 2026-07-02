@@ -19,10 +19,12 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379/0"
 
     llm_provider: str = "gemini"
+    llm_fallback_provider: str = "groq"
 
     anthropic_api_key: str = ""
     openai_api_key: str = ""
     gemini_api_key: str = ""
+    groq_api_key: str = ""
 
     whatsapp_cloud_api_token: str = ""
     whatsapp_phone_number_id: str = ""

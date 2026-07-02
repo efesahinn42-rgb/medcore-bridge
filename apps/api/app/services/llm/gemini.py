@@ -6,6 +6,10 @@ from app.services.llm.base import ChatMessage
 
 _ROLE_MAP = {"user": "user", "assistant": "model"}
 
+# flash-lite: ücretsiz katmanda flash'tan belirgin şekilde daha yüksek günlük kota
+# (bkz. medcorebridge_project memory notu — flash'ın gerçek gözlemlenen limiti günde 20 istekti)
+CHAT_MODEL = "gemini-2.5-flash-lite"
+
 
 class GeminiProvider:
     def __init__(self) -> None:
@@ -20,7 +24,7 @@ class GeminiProvider:
             for m in messages
         ]
         response = await self._client.aio.models.generate_content(
-            model="gemini-2.5-flash",
+            model=CHAT_MODEL,
             contents=contents,
             config=types.GenerateContentConfig(system_instruction=system),
         )

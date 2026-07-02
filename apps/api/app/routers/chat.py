@@ -42,11 +42,6 @@ async def send_message(conversation_id: UUID, body: MessageRequest) -> MessageRe
             conversation_id,
             HISTORY_LIMIT,
         )
-        await conn.execute(
-            "insert into messages (conversation_id, role, content) values ($1, 'user', $2)",
-            conversation_id,
-            body.content,
-        )
 
     # LLM'e giden her şey maskeli: geçmişteki hasta mesajları + şu anki soru.
     # Asistan mesajları zaten RAG bağlamından üretiliyor, PII içermez — maskelenmez.
@@ -61,12 +56,20 @@ async def send_message(conversation_id: UUID, body: MessageRequest) -> MessageRe
     ]
     masked_question = await mask_text(conversation_id, body.content)
 
+    # Kullanıcı mesajı LLM çağrısı BAŞARILI olduktan sonra yazılır — aksi halde
+    # başarısız denemeler DB'de yanıtsız kalıp bir sonraki çağrıda ardışık "user"
+    # rolleri birikir ve Gemini'nin beklediği user/model sırasını bozar.
     raw_answer = await answer_question(
         conversation["clinic_id"], masked_question, history=history
     )
     answer = await detokenize_all(conversation_id, raw_answer)
 
-    async with pool.acquire() as conn:
+    async with pool.acquire() as conn, conn.transaction():
+        await conn.execute(
+            "insert into messages (conversation_id, role, content) values ($1, 'user', $2)",
+            conversation_id,
+            body.content,
+        )
         await conn.execute(
             "insert into messages (conversation_id, role, content, llm_provider) "
             "values ($1, 'assistant', $2, $3)",

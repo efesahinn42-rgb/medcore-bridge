@@ -16,6 +16,9 @@ __pycache__/
 .env.local
 *.env.local
 
+# Redis
+dump.rdb
+
 # OS
 .DS_Store
 

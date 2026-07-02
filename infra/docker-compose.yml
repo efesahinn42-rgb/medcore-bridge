@@ -1,0 +1,28 @@
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ../apps/api
+    env_file:
+      - ../apps/api/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    volumes:
+      - ../apps/api:/app
+
+  worker:
+    build:
+      context: ../apps/api
+    command: ["uv", "run", "celery", "-A", "app.tasks.celery_app", "worker", "--loglevel=info"]
+    env_file:
+      - ../apps/api/.env
+    depends_on:
+      - redis
+    volumes:
+      - ../apps/api:/app

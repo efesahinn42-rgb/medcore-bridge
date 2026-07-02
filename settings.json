@@ -1,0 +1,55 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/Users/busrasimayavsan/Desktop/projeler"],
+      "description": "Proje dosyalarına doğrudan erişim"
+    },
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp",
+      "description": "Resmi Supabase MCP — şema/migrasyon/RLS/pgvector yönetimi. Faz 1/Hafta 2 için gerekli. Proje bağlanmadan önce dashboard'dan MCP connection URL'ini kendi projenize göre üretin; production projesine ASLA bağlamayın, önce dev/staging kullanın."
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_TOKEN_HERE" },
+      "description": "PR/issue yönetimi — https://github.com/settings/tokens üzerinden repo + read:org izinli token üretip YOUR_TOKEN_HERE yerine koyun"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Güncel kütüphane dokümantasyonu (Next.js, React, Tailwind, Prisma...)"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "description": "Browser otomasyonu — UI test, screenshot, Lighthouse"
+    },
+    "fetch": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-fetch"],
+      "description": "HTTP istekleri — dış API, görsel URL kontrolü"
+    },
+    "vercel": {
+      "command": "npx",
+      "args": ["-y", "vercel-platform-mcp-server"],
+      "description": "Vercel deploy, domain, env variable yönetimi"
+    },
+    "headroom": {
+      "command": "npx",
+      "args": ["-y", "headroom-ai", "mcp"],
+      "description": "Token sıkıştırma — uzun oturumlarda %60-95 tasarruf"
+    }
+  },
+  "_notlar": {
+    "codebase-memory-mcp": "Otomatik kuruldu — kodu indekslemek için: index_repository komutunu çalıştır",
+    "github_token": "https://github.com/settings/tokens → repo + read:org izinleri yeterli",
+    "postgres_ekleme": "npx @modelcontextprotocol/server-postgres postgresql://localhost/DBADI",
+    "faz2_4_sonrasi_eklenebilir": {
+      "sentry": "https://github.com/getsentry/sentry-mcp-stdio — üretim hata izleme MCP'si, canlıya yaklaşınca ekle",
+      "redis": "https://github.com/redis/mcp-redis — resmi Redis MCP, Celery kuyruk/cache debug gerektiğinde ekle",
+      "whatsapp": "https://github.com/tkhattar14/whatsapp-business-mcp — Meta WhatsApp Business Cloud API MCP'si, webhook/template test aşamasında ekle"
+    }
+  }
+}

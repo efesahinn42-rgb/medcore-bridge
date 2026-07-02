@@ -25,6 +25,17 @@ cd infra
 docker compose up
 ```
 
+## Veritabanı migrasyonları
+
+`infra/supabase/migrations/*.sql` — Supabase CLI'nin ürettiği isimlendirme konvansiyonuyla
+(`<timestamp>_<açıklama>.sql`) elle yazılır. Uygulamak için:
+
+```bash
+cd apps/api && uv run python scripts/migrate.py
+```
+
+Uygulanan dosyalar `schema_migrations` tablosunda tutulur, script idempotent'tir.
+
 ## Test
 
 ```bash
